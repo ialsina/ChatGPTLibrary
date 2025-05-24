@@ -30,6 +30,8 @@ class ChatLibrary:
             result = self.df[self.df["title"] == key]
             if len(result) == 1:
                 return Chat.from_series(result.iloc[0])
+            if len(result) == 0:
+                raise KeyError(f"No chat with title '{key}' found.")
             return ChatLibrary(result)
         if isinstance(key, int):
             return Chat.from_series(self.df.iloc[key])
