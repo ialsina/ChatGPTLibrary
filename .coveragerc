@@ -1,0 +1,28 @@
+[run]
+source = chatgptlibrary
+branch = True
+omit =
+    */tests/*
+    */__pycache__/*
+    */setup.py
+    */_version.py
+    */conftest.py
+
+[report]
+exclude_lines =
+    pragma: no cover
+    def __repr__
+    raise NotImplementedError
+    if __name__ == .__main__.:
+    pass
+    raise ImportError
+    @abstractmethod
+    @property
+    @classmethod
+    @staticmethod
+    def __init__
+    def __new__
+
+[html]
+directory = coverage_html
+title = ChatGPT Library Coverage Report
