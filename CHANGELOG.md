@@ -8,10 +8,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 
 ### Added
-- Initial project setup with basic ChatGPT conversation data handling
+- Initial project setup
+- Core `Chat` class for handling individual ChatGPT conversations
 - Support for reading and parsing ChatGPT conversation JSON files
-- Basic conversation filtering and search functionality
-
-### Changed
-- Switched from setup.py to pyproject.toml for modern Python packaging
-- Implemented automatic version management using setuptools_scm 
+- Conversation filtering and search functionality with `grepall()` and `grepany()` methods
+- Multiple export formats support (txt, md, html) with rich formatting
+- Jupyter Notebook integration with `display()` method
+- Modern Python packaging with pyproject.toml
+- Automatic version management using setuptools_scm
