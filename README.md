@@ -3,7 +3,7 @@
 A Python package to compile, manage, and search conversations exported from ChatGPT.
 
 ## Features
-- Load conversations from ChatGPT's exported JSON file
+- Load conversations from ChatGPT's exported JSON file or ZIP archive
 - Search conversations by message content
 - Simple pandas-based interface
 - Interactive display of conversations in Jupyter Notebooks
@@ -21,8 +21,9 @@ pip install .
 ```python
 from chatgptlibrary import ChatLibrary
 
-# Initialize from a ChatGPT JSON export
-lib = ChatLibrary('conversations.json')
+# Initialize from a ChatGPT JSON export or ZIP archive
+lib = ChatLibrary('conversations.json')  # From JSON file
+lib = ChatLibrary('conversations.zip')   # From ZIP archive containing conversations.json
 
 # Search for messages containing a string
 results = lib.grep('python')
