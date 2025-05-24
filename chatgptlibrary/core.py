@@ -23,6 +23,18 @@ class ChatLibrary:
         self._validate_df(df)
         self.df = df
 
+    def __getitem__(self, key: int | slice | list[int] | str):
+        if isinstance(key, str):
+            return ChatLibrary(self.df[self.df["title"] == key])
+        if isinstance(key, int):
+            return ChatLibrary(pd.DataFrame([self.df.iloc[key]]))
+        if isinstance(key, (slice, list, int)):
+            return ChatLibrary(pd.DataFrame(self.df.iloc[key]))
+        raise TypeError(
+            "ChatLibrary index must be int, slice, list[int] or str, "
+            f"not {type(key).__name__}."
+        )
+
     def __len__(self):
         return len(self.df)
 
