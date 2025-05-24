@@ -10,9 +10,9 @@ class ChatLibrary:
     def __init__(self, data: str | Path | pd.DataFrame):
         if isinstance(data, (str, Path)):
             file = data
-            df = pd.DataFrame([
-                self._parse(conversation) for conversation in self._read(file)
-            ])
+            df = pd.DataFrame(
+                [self._parse(conversation) for conversation in self._read(file)]
+            )
         elif isinstance(data, pd.DataFrame):
             df = data
         else:
@@ -28,6 +28,7 @@ class ChatLibrary:
 
     def __repr__(self):
         return f"ChatLibrary[{len(self)}]"
+
     @staticmethod
     def _read(file):
         with open("conversations.json", "r") as rf:
@@ -74,11 +75,12 @@ class ChatLibrary:
 
     def grep(self, s: str):
         df = self.df
-        filtered = df[df["conversation"].apply(
-            lambda x: any(
-                any(s.lower() in message.lower() for message in messages)
-                for (_, messages)
-                in x
+        filtered = df[
+            df["conversation"].apply(
+                lambda x: any(
+                    any(s.lower() in message.lower() for message in messages)
+                    for (_, messages) in x
+                )
             )
-        )]
+        ]
         return ChatLibrary(filtered)
