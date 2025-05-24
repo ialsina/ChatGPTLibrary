@@ -3,14 +3,15 @@ from pathlib import Path
 from typing import List, Tuple, Dict, Any, Union
 import html
 from textwrap import dedent
+import pandas as pd
 
 from IPython.display import display, Markdown
 
 
 class ChatFormatter:
     """Handles formatting of chat content for different output formats."""
-    
-    def __init__(self, chat: 'Chat'):
+
+    def __init__(self, chat: "Chat"):
         self.chat = chat
 
     def _format_role(self, role: str) -> str:
@@ -31,16 +32,18 @@ class ChatFormatter:
                 f"<h1>{html.escape(self.chat.title)}</h1>",
                 f"<p><em>Created: {self.chat.created.strftime('%Y-%m-%d %H:%M:%S')}</em></p>",
                 f"<p><em>Updated: {self.chat.updated.strftime('%Y-%m-%d %H:%M:%S')}</em></p>",
-                "<hr>"
+                "<hr>",
             ]
         return [
             f"# {self.chat.title}",
             f"*Created: {self.chat.created.strftime('%Y-%m-%d %H:%M:%S')}*",
             f"*Updated: {self.chat.updated.strftime('%Y-%m-%d %H:%M:%S')}*",
-            "---"
+            "---",
         ]
 
-    def _format_message(self, role: str, messages: List[str], format: str = "md") -> List[str]:
+    def _format_message(
+        self, role: str, messages: List[str], format: str = "md"
+    ) -> List[str]:
         """Format a single message block according to the specified format."""
         if not messages:  # Skip empty messages
             return []
@@ -63,15 +66,16 @@ class ChatFormatter:
     def get_formatted_content(self, format: str = "md") -> List[str]:
         """Get the complete formatted content of the chat."""
         content = self._format_metadata(format)
-        
+
         for role, messages in self.chat.conversation:
             content.extend(self._format_message(role, messages, format))
-            
+
         return content
 
     def get_html_template(self, content: List[str]) -> str:
         """Get the complete HTML document with the formatted content."""
-        return dedent(f"""
+        return dedent(
+            f"""
             <!DOCTYPE html>
             <html>
             <head>
@@ -96,7 +100,8 @@ class ChatFormatter:
             {chr(10).join(content)}
             </body>
             </html>
-        """).strip()
+        """
+        ).strip()
 
 
 class Chat:
@@ -115,6 +120,23 @@ class Chat:
     def __repr__(self):
         return f"Chat('{self.title}')"
 
+    @classmethod
+    def from_series(cls, row: pd.Series) -> "Chat":
+        """Create a Chat instance from a library row.
+
+        Args:
+            row: A pandas Series containing 'title', 'conversation', 'created', and 'updated' fields.
+
+        Returns:
+            A new Chat instance.
+        """
+        return cls(
+            row["title"],
+            row["conversation"],
+            row["created"],
+            row["updated"],
+        )
+
     def display(self):
         """Display the chat conversation in Jupyter Notebook."""
         formatter = ChatFormatter(self)
@@ -124,21 +146,21 @@ class Chat:
 
     def export(self, filepath: Union[str, Path], format: str = None) -> None:
         """Export the chat conversation to a file in the specified format.
-        
+
         Args:
             filepath: Path where the file should be saved (string or Path object)
             format: Export format, one of "txt", "md", or "html". If None, format is inferred from filepath extension.
         """
         # Convert string to Path if necessary
         path = Path(filepath) if isinstance(filepath, str) else filepath
-        
+
         # Infer format from extension if not provided
         if format is None:
             format = path.suffix.lstrip(".").lower()
             if not format:  # If no extension, default to md
                 format = "md"
                 path = path.with_suffix(".md")
-        
+
         if format not in ["txt", "md", "html"]:
             raise ValueError("Format must be one of: txt, md, html")
 

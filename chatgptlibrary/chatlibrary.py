@@ -27,11 +27,17 @@ class ChatLibrary:
 
     def __getitem__(self, key: int | slice | list[int] | str):
         if isinstance(key, str):
-            return ChatLibrary(self.df[self.df["title"] == key])
+            result = self.df[self.df["title"] == key]
+            if len(result) == 1:
+                return Chat.from_series(result.iloc[0])
+            return ChatLibrary(result)
         if isinstance(key, int):
-            return ChatLibrary(pd.DataFrame([self.df.iloc[key]]))
-        if isinstance(key, (slice, list, int)):
-            return ChatLibrary(pd.DataFrame(self.df.iloc[key]))
+            return Chat.from_series(self.df.iloc[key])
+        if isinstance(key, (slice, list)):
+            result = pd.DataFrame(self.df.iloc[key])
+            if len(result) == 1:
+                return Chat.from_series(result.iloc[0])
+            return ChatLibrary(result)
         raise TypeError(
             "ChatLibrary index must be int, slice, list[int] or str, "
             f"not {type(key).__name__}."
