@@ -71,7 +71,7 @@ class ChatLibrary:
 
     @property
     def conversation(self):
-        return list(filtered["conversation"])
+        return list(self.df.conversation)
 
     def grep(self, s: str):
         df = self.df
