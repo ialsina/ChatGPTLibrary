@@ -3,6 +3,7 @@ from datetime import datetime
 import pandas as pd
 from pathlib import Path
 
+from .chat import Chat
 
 class ChatLibrary:
     _columns = ("title", "conversation", "created", "updated")

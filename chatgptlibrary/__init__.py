@@ -1,3 +1,4 @@
-from .core import ChatLibrary
+from .chatlibrary import ChatLibrary
+from .chat import Chat
 
-__all__ = ["ChatLibrary"]
+__all__ = ["ChatLibrary", "Chat"]
