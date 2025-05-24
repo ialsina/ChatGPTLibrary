@@ -11,6 +11,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Initial project setup
 - Core `Chat` class for handling individual ChatGPT conversations
 - Support for reading and parsing ChatGPT conversation JSON files
+- Support for reading conversations from ZIP archives
 - Conversation filtering and search functionality with `grepall()` and `grepany()` methods
 - Multiple export formats support (txt, md, html) with rich formatting
 - Jupyter Notebook integration with `display()` method
