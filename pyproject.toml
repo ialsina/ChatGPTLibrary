@@ -1,0 +1,26 @@
+[build-system]
+requires = ["setuptools>=61.0", "wheel", "setuptools_scm>=8.0.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "chatgptlibrary"
+dynamic = ["version", "dependencies"]
+description = "A library for working with ChatGPT conversation data"
+authors = [
+    {name = "Ivan Alsina Ferrer"}
+]
+readme = "README.md"
+requires-python = ">=3.8"
+
+[project.urls]
+Homepage = "https://github.com/ialsina/ChatGPTLibrary"
+Repository = "https://github.com/ialsina/ChatGPTLibrary.git"
+
+[tool.setuptools]
+packages = ["chatgptlibrary"]
+
+[tool.setuptools_scm]
+write_to = "chatgptlibrary/_version.py"
+
+[tool.setuptools.dynamic]
+dependencies = {file = "requirements.txt"} 
