@@ -36,7 +36,7 @@ print(results.conversation)
 # Get a single chat and display it in Jupyter Notebook
 chat = lib[0]  # Get first chat by index
 chat = lib["My Conversation"]  # Get chat by title
-chat.show()    # Display with rich formatting
+chat.display()    # Display with rich formatting
 
 # Search with multiple terms
 # All terms must match
