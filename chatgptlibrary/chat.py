@@ -1,6 +1,6 @@
 from datetime import datetime
 from pathlib import Path
-from typing import List, Tuple, Dict, Any, Union
+from typing import List, Tuple, Union
 import html
 from textwrap import dedent
 import pandas as pd
@@ -10,6 +10,8 @@ from IPython.display import display, Markdown
 
 class ChatFormatter:
     """Handles formatting of chat content for different output formats."""
+
+    # pylint: disable=W0622
 
     def __init__(self, chat: "Chat"):
         self.chat = chat
@@ -125,7 +127,8 @@ class Chat:
         """Create a Chat instance from a library row.
 
         Args:
-            row: A pandas Series containing 'title', 'conversation', 'created', and 'updated' fields.
+            row: A pandas Series containing 'title', 'conversation',
+                 'created', and 'updated' fields.
 
         Returns:
             A new Chat instance.
@@ -144,12 +147,15 @@ class Chat:
         for line in content:
             display(Markdown(line))
 
-    def export(self, filepath: Union[str, Path], format: str = None) -> None:
+    def export(
+        self, filepath: Union[str, Path], format: str = None
+    ) -> None:  # pylint: disable=W0622
         """Export the chat conversation to a file in the specified format.
 
         Args:
             filepath: Path where the file should be saved (string or Path object)
-            format: Export format, one of "txt", "md", or "html". If None, format is inferred from filepath extension.
+            format: Export format, one of "txt", "md", or "html".
+                    If None, format is inferred from filepath extension.
         """
         # Convert string to Path if necessary
         path = Path(filepath) if isinstance(filepath, str) else filepath

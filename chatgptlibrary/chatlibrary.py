@@ -63,7 +63,7 @@ class ChatLibrary:
                 with zipfile.ZipFile(file, "r") as zip_ref:
                     zip_ref.extractall(tmpdir)
                 json_path = os.path.join(tmpdir, "conversations.json")
-                with open(json_path, "r") as rf:
+                with open(json_path, "r", encoding="utf-8") as rf:
                     return json.load(rf)
         else:
             with open(file, "r", encoding="utf-8") as rf:
@@ -73,7 +73,7 @@ class ChatLibrary:
     def _parse(conversation):
         content = []
         title = conversation["title"]
-        for key, dct in conversation["mapping"].items():
+        for _, dct in conversation["mapping"].items():
             if dct.get("message") is None:
                 continue
             role = dct["message"].get("author", {}).get("role", "unknown")
