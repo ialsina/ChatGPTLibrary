@@ -4,6 +4,7 @@ from typing import List, Tuple
 
 from IPython.display import display, Markdown
 
+
 class Chat:
     def __init__(
         self,
