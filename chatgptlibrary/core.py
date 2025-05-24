@@ -110,5 +110,7 @@ class ChatLibrary:
             return ChatLibrary(pd.DataFrame(columns=self._columns))
         result = self.grep(args[0])
         for s in args[1:]:
-            result = ChatLibrary(pd.concat([result.df, self.grep(s).df]).drop_duplicates())
+            result = ChatLibrary(
+                pd.concat([result.df, self.grep(s).df]).drop_duplicates()
+            )
         return result
