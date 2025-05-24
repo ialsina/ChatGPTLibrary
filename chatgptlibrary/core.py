@@ -96,3 +96,19 @@ class ChatLibrary:
             )
         ]
         return ChatLibrary(filtered)
+
+    def grepall(self, *args: str):
+        if not args:
+            return self
+        result = self.grep(args[0])
+        for s in args[1:]:
+            result = result.grep(s)
+        return result
+
+    def grepany(self, *args: str):
+        if not args:
+            return ChatLibrary(pd.DataFrame(columns=self._columns))
+        result = self.grep(args[0])
+        for s in args[1:]:
+            result = ChatLibrary(pd.concat([result.df, self.grep(s).df]).drop_duplicates())
+        return result
