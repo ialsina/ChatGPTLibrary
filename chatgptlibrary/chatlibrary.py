@@ -1,7 +1,11 @@
-import json
 from datetime import datetime
-import pandas as pd
+import json
 from pathlib import Path
+import tempfile
+import os
+import zipfile
+
+import pandas as pd
 
 from .chat import Chat
 
@@ -53,8 +57,17 @@ class ChatLibrary:
 
     @staticmethod
     def _read(file):
-        with open("conversations.json", "r") as rf:
-            return json.load(rf)
+        file = str(file)
+        if file.endswith(".zip"):
+            with tempfile.TemporaryDirectory() as tmpdir:
+                with zipfile.ZipFile(file, "r") as zip_ref:
+                    zip_ref.extractall(tmpdir)
+                json_path = os.path.join(tmpdir, "conversations.json")
+                with open(json_path, "r") as rf:
+                    return json.load(rf)
+        else:
+            with open(file, "r", encoding="utf-8") as rf:
+                return json.load(rf)
 
     @staticmethod
     def _parse(conversation):
